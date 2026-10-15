@@ -17,7 +17,7 @@
   const BIG_MIN_SPEED = 30;
   const BIG_MAX_SPEED = 130;
   const SPIN_CHANCE = 0.5;
-  const BIG_MAX_SPIN_RPS = 6;
+  const BIG_MAX_SPIN_RPS = 1;
   const SPIN_UNIT = Math.PI * 2;
   const FIXED_DT = 1 / 120;
   const ATTACH_FADE = 0.25;
