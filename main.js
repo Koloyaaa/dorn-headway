@@ -486,7 +486,7 @@
       body.data.lastCartHitAt = simTime;
       cart.data.flashUntil = simTime + 0.28;
 
-      cart.data.hitPoints += hitPointsFor(body);
+      cart.data.hitPoints += activeHits ? hitPointsFor(body) : 1;
       while (cart.data.hitPoints >= HIT_POINTS_PER_DAMAGE && cart.data.hp > 0) {
         cart.data.hitPoints -= HIT_POINTS_PER_DAMAGE;
         cart.data.hp -= 1;
