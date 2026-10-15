@@ -68,7 +68,7 @@
   const gameLogo = document.querySelector(".game-logo");
   const stageHead = document.querySelector(".stage-head");
 
-  const SETTINGS_KEY = "head-bounce-settings-v1";
+  const SETTINGS_KEY = "dorn-headway-settings-v1";
 
   function loadSettings() {
     try {
