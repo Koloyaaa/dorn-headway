@@ -520,7 +520,7 @@
   }
 
   function blowLimitThreshold() {
-    return 6 - Math.log(deliveredCount + 1);
+    return 8 - Math.log(deliveredCount + 1);
   }
 
   function allowedStreak() {
