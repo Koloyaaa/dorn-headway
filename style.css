@@ -216,10 +216,10 @@ body {
   filter: brightness(1.06);
 }
 
-.help-button,
 .repo-button {
   position: absolute;
   top: 22px;
+  right: 26px;
   display: grid;
   place-items: center;
   width: 46px;
@@ -237,23 +237,13 @@ body {
   cursor: pointer;
 }
 
-.help-button {
-  right: 84px;
-}
-
-.repo-button {
-  right: 26px;
-}
-
-.help-button:hover,
 .repo-button:hover {
   background: #ffffff;
   border-color: rgba(90, 110, 130, 0.7);
 }
 
-.help-button::after,
 .repo-button::after {
-  content: "";
+  content: "仓库页面";
   position: absolute;
   top: calc(100% + 10px);
   left: 50%;
@@ -270,17 +260,112 @@ body {
   transition: opacity 0.15s ease;
 }
 
-.help-button::after {
-  content: "游戏说明";
-}
-
-.repo-button::after {
-  content: "仓库页面";
-}
-
-.help-button:hover::after,
 .repo-button:hover::after {
   opacity: 1;
+}
+
+.tool-dock {
+  position: fixed;
+  top: 84px;
+  right: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 8px;
+  background: rgba(255, 255, 255, 0.78);
+  border: 1px solid rgba(113, 138, 156, 0.25);
+  border-radius: 14px;
+  backdrop-filter: blur(6px);
+  user-select: none;
+}
+
+.tool-slot {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border: 2px solid transparent;
+  border-radius: 50%;
+  background: transparent;
+  cursor: pointer;
+}
+
+.tool-slot.is-selected {
+  border-color: #2d5f80;
+  background: rgba(45, 95, 128, 0.1);
+}
+
+.tool-slot:hover {
+  background: rgba(45, 95, 128, 0.06);
+}
+
+.tool-icon {
+  display: block;
+}
+
+.tool-icon-ball {
+  width: 20px;
+  height: 20px;
+  border: 2px solid #2b3a46;
+  border-radius: 50%;
+  background: #ffffff;
+}
+
+.tool-icon-balloon {
+  width: 16px;
+  height: 17px;
+  border: 2px solid #d8839b;
+  border-radius: 50% 50% 46% 46%;
+  background: #f2a8bb;
+}
+
+.tool-icon-bomb {
+  width: 18px;
+  height: 18px;
+  border: 2px solid #c47a34;
+  border-radius: 50%;
+  background: #e59a4e;
+}
+
+.tool-icon-blackhole {
+  width: 16px;
+  height: 16px;
+  border: 2px solid #2a2438;
+  border-radius: 50%;
+  background: #0b0d10;
+  box-shadow: 0 0 6px rgba(180, 100, 200, 0.55);
+}
+
+.tool-cd {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.tool-divider {
+  width: 22px;
+  height: 2px;
+  border-radius: 1px;
+  background: rgba(113, 138, 156, 0.4);
+}
+
+.tool-name {
+  position: fixed;
+  right: 80px;
+  transform: translateY(-50%);
+  padding: 4px 10px;
+  border-radius: 8px;
+  background: rgba(29, 45, 58, 0.85);
+  color: #ffffff;
+  font-size: 12px;
+  white-space: nowrap;
+  pointer-events: none;
+  user-select: none;
+  transition: top 0.15s ease;
 }
 
 .help-content {
