@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <title>接头𣿅王</title>
+    <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <canvas id="board" tabindex="0" aria-label="弹射组装游戏区域：移动瞄准，发射小圆，为灰色大圆装上两只相对的耳朵。"></canvas>
+
+    <div class="hud" aria-live="polite">
+      <span>步数 <strong id="hud-steps">0</strong></span>
+      <span>送达 <strong id="hud-delivered">0</strong></span>
+      <span>空车 <strong id="hud-empty">0</strong></span>
+      <span>炸单 <strong id="hud-blown">0</strong></span>
+      <span>连炸 <strong id="hud-streak">0</strong></span>
+      <span>送达率 <strong id="hud-rate">--</strong></span>
+    </div>
+
+    <p class="hint">移动瞄准 · 点击或空格发射 · 组装头并送到车上 · ESC 暂停</p>
+
+    <div class="start-overlay" id="start-overlay">
+      <div class="home-bubbles" aria-hidden="true">
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+      <button class="help-button" id="help-open" type="button" aria-label="游戏说明">?</button>
+      <a class="repo-button" id="repo-link" href="#" aria-label="仓库页面">
+        <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true">
+          <path d="M12 3.4l2.7 5.5 6 .9-4.3 4.2 1 6-5.4-2.8-5.4 2.8 1-6L3.3 9.8l6-.9z" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round" />
+        </svg>
+      </a>
+      <svg class="game-logo" viewBox="0 0 96 96" aria-hidden="true">
+        <circle cx="16" cy="48" r="14" fill="#161e27" />
+        <circle cx="80" cy="48" r="14" fill="#161e27" />
+        <circle cx="48" cy="48" r="30" fill="#aab7c2" stroke="#78889a" stroke-width="3" />
+        <circle cx="38" cy="42" r="3.6" fill="#1d2d3a" />
+        <circle cx="58" cy="42" r="3.6" fill="#1d2d3a" />
+        <path d="M37 55 Q48 64 59 55" stroke="#1d2d3a" stroke-width="3" fill="none" stroke-linecap="round" />
+      </svg>
+      <h1 class="home-title" aria-label="接头𣿅王">
+        <img class="home-title-logo" src="logo.svg" alt="" />
+      </h1>
+      <p class="home-tagline">无重力弹射舱 · 组装 · 送货</p>
+      <div class="home-actions">
+        <button id="start-button" type="button">开始游戏</button>
+        <button id="settings-open" type="button" class="secondary">设置</button>
+      </div>
+      <div class="home-stage" aria-hidden="true">
+        <div class="stage-belt"></div>
+        <svg class="stage-body" viewBox="0 0 140 150" aria-hidden="true">
+          <defs>
+            <linearGradient id="bodyGrad" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0" stop-color="#aec0cc" />
+              <stop offset="1" stop-color="#7f94a4" />
+            </linearGradient>
+          </defs>
+          <circle cx="48" cy="134" r="13" fill="#71889a" stroke="#566b7c" stroke-width="2.5" />
+          <circle cx="92" cy="134" r="13" fill="#71889a" stroke="#566b7c" stroke-width="2.5" />
+          <circle cx="14" cy="68" r="13" fill="#8ba0b0" stroke="#566b7c" stroke-width="2.5" />
+          <circle cx="126" cy="68" r="13" fill="#8ba0b0" stroke="#566b7c" stroke-width="2.5" />
+          <rect x="24" y="24" width="92" height="106" rx="42" fill="url(#bodyGrad)" stroke="#566b7c" stroke-width="2.5" />
+          <path d="M49 25 C54 47, 86 47, 91 25 Z" fill="#61798b" />
+          <path d="M55 25 C58 40, 82 40, 85 25 Z" fill="#4d6373" />
+          <ellipse cx="46" cy="56" rx="15" ry="9" fill="rgba(255,255,255,0.32)" transform="rotate(-24 46 56)" />
+        </svg>
+        <svg class="stage-head" viewBox="0 0 96 96" aria-hidden="true">
+          <circle cx="16" cy="48" r="14" fill="#161e27" />
+          <circle cx="80" cy="48" r="14" fill="#161e27" />
+          <circle cx="48" cy="48" r="30" fill="#aab7c2" stroke="#78889a" stroke-width="3" />
+          <circle cx="38" cy="42" r="3.6" fill="#1d2d3a" />
+          <circle cx="58" cy="42" r="3.6" fill="#1d2d3a" />
+          <path d="M37 55 Q48 64 59 55" stroke="#1d2d3a" stroke-width="3" fill="none" stroke-linecap="round" />
+        </svg>
+      </div>
+      <footer class="home-footer">
+        <span class="footer-copyright">© DornGames</span>
+        <span class="footer-divider" aria-hidden="true">|</span>
+        <a class="footer-link" id="footer-user-link" href="https://github.com/YeSirQoQF" target="_blank" rel="noopener noreferrer">作者 GitHub @YeSirQoQF</a>
+        <span class="footer-divider" aria-hidden="true">|</span>
+        <span class="footer-rights" lang="en">All right reserved.</span>
+      </footer>
+    </div>
+
+    <div class="help-overlay" id="help-overlay" hidden>
+      <div class="help-card">
+        <h1>游戏说明</h1>
+        <div class="help-content">
+          <p class="help-intro">某款神奇的玩偶正在量产，给手办的头安上耳朵，再让头装到身体上，完成订单吧！</p>
+          <p>发射小圆，碰上大圆就粘成耳朵；两只耳朵正对着贴好，头就完成了。</p>
+          <p>把完整的头送到经过的身体旁，它会自动接上，帮你完成订单。</p>
+          <p>小圆、大圆、半成品撞到身体会让它掉血，血掉光就是炸单。</p>
+          <p>没接到头的身体算空车；连续炸单太多，本局结束。送达率越高，评价越好。</p>
+        </div>
+        <button id="help-back" type="button" class="secondary">返回</button>
+      </div>
+    </div>
+
+    <div class="settings-overlay" id="settings-overlay" hidden>
+      <div class="settings-card">
+        <h1>设置</h1>
+        <div class="settings-list">
+          <label class="toggle-row">
+            <input type="checkbox" id="invincible-toggle" />
+            <span>不败模式<small>永远不会失败，放心练手</small></span>
+          </label>
+          <label class="toggle-row">
+            <input type="checkbox" id="strict-toggle" />
+            <span>严格模式<small>接到头后车仍会受击，每 3 次受击掉 1 血</small></span>
+          </label>
+          <label class="toggle-row">
+            <input type="checkbox" id="turbo-toggle" />
+            <span>飙速模式<small>来车越来越频繁，最高形成紧挨的车队</small></span>
+          </label>
+        </div>
+        <button id="settings-back" type="button" class="secondary">返回</button>
+      </div>
+    </div>
+
+    <div class="end-overlay" id="end-overlay" hidden>
+      <div class="end-card">
+        <h1>游戏结束</h1>
+        <p id="end-reason"></p>
+        <p id="end-stats" class="end-stats"></p>
+        <button id="end-again" type="button">再玩一局</button>
+        <button id="end-home" type="button" class="secondary">返回首页</button>
+      </div>
+    </div>
+
+    <div class="pause-overlay" id="pause-overlay" hidden>
+      <div class="pause-card">
+        <h1>已暂停</h1>
+        <p>世界已经停住，随时可以继续。</p>
+        <button id="resume-button" type="button">继续</button>
+        <button id="restart-button" type="button" class="secondary">重新开始</button>
+        <button id="pause-home" type="button" class="secondary">返回首页</button>
+      </div>
+    </div>
+
+    <script src="physics.js"></script>
+    <script src="main.js"></script>
+  </body>
+</html>
