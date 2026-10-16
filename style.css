@@ -109,6 +109,25 @@ body {
   color: #1d2d3a;
 }
 
+.help-card {
+  width: min(740px, calc(100vw - 48px));
+  max-width: none;
+  max-height: calc(100vh - 48px);
+  display: flex;
+  flex-direction: column;
+}
+
+.help-card .help-content {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  padding-right: 6px;
+}
+
+.about-card {
+  max-width: 460px;
+}
+
 .game-logo {
   display: block;
   width: 136px;
