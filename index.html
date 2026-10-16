@@ -51,6 +51,7 @@
         <span></span>
         <span></span>
       </div>
+      <button class="repo-button about-button" id="about-button" type="button" aria-label="关于𣿅">?</button>
       <a class="repo-button" id="repo-link" href="https://github.com/YeSirQoQF/dorn-headway" target="_blank" rel="noopener noreferrer" aria-label="仓库页面">
         <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true">
           <path d="M12 3.4l2.7 5.5 6 .9-4.3 4.2 1 6-5.4-2.8-5.4 2.8 1-6L3.3 9.8l6-.9z" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round" />
@@ -118,12 +119,22 @@
           <p>组装：发射小圆，碰到漂浮的大圆就粘成耳朵；两只耳朵正对着贴好，头就完成了。</p>
           <p>送货：身体会从场下经过，把头送到它旁边就会自动接上、直接出厂；没接到头的身体算空车。</p>
           <p>受伤：小圆、大圆、半成品砸到身体会累积受击点（血条下的圆点），攒满 3 点掉 1 血——空车挨撞时按撞击物计点：小圆 2 点、大圆和半成品 4 点、完整的头 6 点；严格模式下接到头后，每次受击固定只累积 1 点。血掉光就是炸单。连续炸单太多，本局结束。</p>
-          <p>道具：R/F 或滚轮切换。气球飞快轻盈，碰到东西就碎、给身体 1 点受击；炸弹碰哪炸哪，炸毁附近的物体，贴到身体上会直接炸单；黑洞吸引并吞掉一切，碰到身体同样炸单，几秒后自行消散。</p>
+          <p>道具：R/F 或滚轮切换。气球飞快轻盈，碰到东西就碎、给身体 1 点受击；炸弹碰哪炸哪，炸毁附近的物体，贴到身体上会扣 4 滴血；黑洞吸引并吞掉一切，碰到身体直接炸单，几秒后自行消散。</p>
           <p>电场：小圆带 -1 电荷、大圆带 +2；耳朵会抵消——半成品带 +1，完整头恰好不带电。按住 W 撑起竖直向上的电场：小球被向下推、大圆被向上拉；按住 S 电场向下、效果相反。</p>
           <p>操作：鼠标瞄准，点击或空格发射；A/D 左右移动发射点；按住右键放慢全场时间；ESC 暂停。</p>
           <p>设置：不败模式不会失败；严格模式接上头后身体仍会受击；飙速模式身体以最密节奏接连出场。</p>
         </div>
         <button id="help-back" type="button" class="secondary">返回</button>
+      </div>
+    </div>
+
+    <div class="help-overlay" id="about-overlay" hidden>
+      <div class="help-card about-card">
+        <h1>关于𣿅</h1>
+        <div class="help-content">
+          <p class="help-intro">𣿅元素系作者中学班级流行的亚文化，说来话长。</p>
+        </div>
+        <button id="about-back" type="button" class="secondary">返回</button>
       </div>
     </div>
 

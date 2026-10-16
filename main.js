@@ -54,6 +54,7 @@
   const HIT_SPEED = 150;
   const HIT_POINTS_PER_DAMAGE = 3;
   const HIT_POINTS_BY_TYPE = { ball: 2, big: 4, head: 6, balloon: 1 };
+  const BOMB_CART_HIT_POINTS = 12;
   const ABSORB_RADIUS = 118;
   const CART_BASELINE = 84;
   const ELECTRIC_FIELD_STRENGTH = 12000;
@@ -86,6 +87,9 @@
   const helpOverlay = document.getElementById("help-overlay");
   const helpOpenButton = document.getElementById("help-open");
   const helpBackButton = document.getElementById("help-back");
+  const aboutOverlay = document.getElementById("about-overlay");
+  const aboutButton = document.getElementById("about-button");
+  const aboutBackButton = document.getElementById("about-back");
   const gameLogo = document.querySelector(".game-logo");
   const stageHead = document.querySelector(".stage-head");
   const toolDock = document.getElementById("tool-dock");
@@ -451,6 +455,20 @@
     }
   }
 
+  function applyCartDamage(cart, points) {
+    if (cart.data.hp <= 0) return;
+    cart.data.flashUntil = simTime + 0.28;
+    cart.data.hitPoints += points;
+    while (cart.data.hitPoints >= HIT_POINTS_PER_DAMAGE && cart.data.hp > 0) {
+      cart.data.hitPoints -= HIT_POINTS_PER_DAMAGE;
+      cart.data.hp -= 1;
+    }
+    if (cart.data.hp <= 0) {
+      cart.data.hp = 0;
+      explodeCart(cart);
+    }
+  }
+
   function checkCartHits(cart) {
     const state = cart.data.state;
     const activeHits = state === "active";
@@ -459,6 +477,7 @@
 
     for (const body of world.bodies) {
       if (body === cart) continue;
+      if (body.tag === "balloon" || body.tag === "bomb" || body.tag === "blackhole") continue;
 
       let touching = false;
       for (const partA of body.parts) {
@@ -484,18 +503,8 @@
       if (body.data.hitCarts.has(cart)) continue;
       body.data.hitCarts.add(cart);
       body.data.lastCartHitAt = simTime;
-      cart.data.flashUntil = simTime + 0.28;
-
-      cart.data.hitPoints += activeHits ? hitPointsFor(body) : 1;
-      while (cart.data.hitPoints >= HIT_POINTS_PER_DAMAGE && cart.data.hp > 0) {
-        cart.data.hitPoints -= HIT_POINTS_PER_DAMAGE;
-        cart.data.hp -= 1;
-      }
-      if (cart.data.hp <= 0) {
-        cart.data.hp = 0;
-        explodeCart(cart);
-        return;
-      }
+      applyCartDamage(cart, activeHits ? hitPointsFor(body) : 1);
+      if (cart.data.hp <= 0) return;
     }
   }
 
@@ -564,6 +573,7 @@
     toolNameNode.hidden = true;
     settingsOverlay.hidden = true;
     helpOverlay.hidden = true;
+    aboutOverlay.hidden = true;
     homeOverlay.hidden = false;
     endOverlay.hidden = true;
   }
@@ -670,16 +680,7 @@
     const state = cart.data.state;
     const canHit = state === "active" || (state === "loaded" && settings.strict);
     if (!canHit) return;
-    cart.data.flashUntil = simTime + 0.28;
-    cart.data.hitPoints += HIT_POINTS_BY_TYPE.balloon;
-    while (cart.data.hitPoints >= HIT_POINTS_PER_DAMAGE && cart.data.hp > 0) {
-      cart.data.hitPoints -= HIT_POINTS_PER_DAMAGE;
-      cart.data.hp -= 1;
-    }
-    if (cart.data.hp <= 0) {
-      cart.data.hp = 0;
-      explodeCart(cart);
-    }
+    applyCartDamage(cart, HIT_POINTS_BY_TYPE.balloon);
   }
 
   function checkBombImpacts() {
@@ -725,8 +726,10 @@
             break;
           }
         }
-        if (close) explodeCart(body);
-        continue;
+        if (close) {
+          applyCartDamage(body, BOMB_CART_HIT_POINTS);
+          continue;
+        }
       }
 
       let destroyed = false;
@@ -1714,6 +1717,14 @@
   });
   helpBackButton.addEventListener("click", () => {
     helpOverlay.hidden = true;
+    homeOverlay.hidden = false;
+  });
+  aboutButton.addEventListener("click", () => {
+    homeOverlay.hidden = true;
+    aboutOverlay.hidden = false;
+  });
+  aboutBackButton.addEventListener("click", () => {
+    aboutOverlay.hidden = true;
     homeOverlay.hidden = false;
   });
   pauseHomeButton.addEventListener("click", goHome);

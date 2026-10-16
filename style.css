@@ -264,6 +264,14 @@ body {
   opacity: 1;
 }
 
+.about-button {
+  right: 82px;
+}
+
+.about-button::after {
+  content: "关于𣿅";
+}
+
 .tool-dock {
   position: fixed;
   top: 84px;
