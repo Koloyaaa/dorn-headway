@@ -727,7 +727,11 @@
           }
         }
         if (close) {
-          applyCartDamage(body, BOMB_CART_HIT_POINTS);
+          const state = body.data.state;
+          const canHit = state === "active" || (state === "loaded" && settings.strict);
+          if (canHit) {
+            applyCartDamage(body, state === "active" ? BOMB_CART_HIT_POINTS : 1);
+          }
           continue;
         }
       }
